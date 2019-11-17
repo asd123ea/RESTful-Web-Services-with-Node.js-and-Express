@@ -27,5 +27,24 @@ describe('Book Controller Tests:', () => {
         .should.equal(true);
     });
   });
+  describe('Get by id', () => {
+    it('should return a book', () => {
+      const Book = function (book) { this.getById = (id) => { } };
+      const req = {
+        params: [{
+          bookId: '5dd18216a506adf95f494690'
+        }]
+      };
+      const res = {
+        status: sinon.spy(),
+        send: sinon.spy(),
+        json: sinon.spy()
+      };
+      const controller = bookController(Book);
+      controller.getById(req, res);
+
+      res.status.calledWith(200).should.equal(true, 'Book returned');
+    })
+  });
 
 });
