@@ -28,15 +28,16 @@ function booksController(Book) {
     });
   }
 
-  function findById(id) {
-    Book.findById(id, (err, book) => {
+  function getById(req, res, next) {
+    Book.findById(req.params.bookId, (err, book) => {
       if (err) {
-        return err;
+        return res.send(err);
       }
       if (book) {
-        return book;
+        req.book = book;
+        return next();
       }
-      return null;
+      return res.sendStatus(404);
     });
   }
 
@@ -82,7 +83,7 @@ function booksController(Book) {
     });
   }
 
-  return { post, get, put, patch, deleteA };
+  return { post, get, put, patch, deleteA, getById };
 }
 
 module.exports = booksController;
